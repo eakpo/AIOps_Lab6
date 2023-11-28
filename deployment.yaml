@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: monitor-app
+  labels:
+    app: monitor-app
+spec:
+  replicas: 0
+  selector:
+    matchLabels:
+      app: monitor-app
+  template:
+    metadata:
+      labels:
+        app:  monitor-app
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8080"
+        prometheus.io/path: "/metrics"
+    spec:
+      containers:
+      - name: monitor-app
+        image: eugeniaakpo/monitor:latest
+        ports:
+        - containerPort: 8080
+        resources:
+          requests:
+            cpu: 200m
